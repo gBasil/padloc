@@ -3,10 +3,6 @@
     "version": "4.3.0",
     "displayName": "Padloc",
     "private": true,
-    "engines": {
-        "node": "16.x",
-        "npm": "8.x"
-    },
     "cordova": {
         "platforms": [
             "ios",

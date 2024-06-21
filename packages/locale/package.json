@@ -20,9 +20,5 @@
         "type": "git",
         "url": "https://github.com/padloc/padloc.git",
         "directory": "packages/locale"
-    },
-    "engines": {
-        "node": "16.x",
-        "npm": "8.x"
     }
 }

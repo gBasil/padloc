@@ -8,10 +8,6 @@
         "type": "git",
         "url": "https://github.com/padloc/padloc.git"
     },
-    "engines": {
-        "node": "16.x",
-        "npm": "8.x"
-    },
     "scripts": {
         "build": "rm -rf app build dist && webpack && node ./prepare-build.js && electron-builder --config build/build.json",
         "build:flatpak": "electron-builder --config build/build-flatpak.json",

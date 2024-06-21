@@ -10,10 +10,6 @@
         "type": "git",
         "url": "git+https://github.com/padloc/padloc.git"
     },
-    "engines": {
-        "node": "16.x",
-        "npm": "8.x"
-    },
     "main": "main.js",
     "devDependencies": {
         "concurrently": "7.6.0",

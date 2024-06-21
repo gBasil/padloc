@@ -14,10 +14,6 @@
         "url": "https://github.com/padloc/padloc.git",
         "directory": "packages/pwa"
     },
-    "engines": {
-        "node": "16.x",
-        "npm": "8.x"
-    },
     "dependencies": {
         "@padloc/app": "4.3.0",
         "@padloc/core": "4.3.0"
