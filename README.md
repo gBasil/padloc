@@ -1,10 +1,12 @@
 # Padloc
 
+A fork of Padloc that:
+- **Suits my personal wants/needs.**
+- Uses pnpm workspaces instead of Lerna + npm
+
 [![](https://github.com/padloc/padloc/workflows/Run%20Tests/badge.svg?branch=main)](https://github.com/padloc/padloc/actions?workflow=Run+Tests)
 
 Simple, secure password and data management for individuals and teams.
-
-[![Deploy to DigitalOcean](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/padloc/padloc/tree/main)
 
 ## About
 
@@ -176,6 +178,7 @@ whether there have been changes in them or not. To update the global version
 accross the project, you can use the following command:
 
 ```sh
+# Note: This command has not been tested, as Lerna is no longer used here
 pnpm dlx lerna version [semver_version]
 ```
 
