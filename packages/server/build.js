@@ -24,7 +24,7 @@ const jsdomPatch = {
 esbuild.build({
 	entryPoints: ['src/init.ts'],
 	bundle: true,
-	// minify: true,
+	minify: true,
 	platform: 'node',
 	outfile: 'dist/server.js',
 	plugins: [jsdomPatch],
@@ -44,11 +44,7 @@ esbuild.build({
 		console.error(e);
 		console.error(); // Newline
 
-		throw new Error(
-			'Ran into an error when trying to copy prebuilt native modules for the `classic-level` module.'
-			+ `\nIf you use a more obscure operating system, this may be because prebuilt native modules for your system (${file}) aren\'t supported.`
-			+ '\nWhile this build script currently does not support building new native modules, this problem may be solved by building the native module for your operating system.'
-		);
+		throw new Error('Ran into an error when trying to copy prebuilt native modules for the `classic-level` module.');
 	}
 });
 

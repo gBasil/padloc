@@ -5,7 +5,7 @@ let lookupPromise = getLookup();
 
 export async function getLookup() {
     try {
-        await geolite2.downloadDbs();
+        await geolite2.downloadDbs('./dbs');
         return geolite2.open<CityResponse>("GeoLite2-City", (path) => {
             return maxmind.open(path);
         });
