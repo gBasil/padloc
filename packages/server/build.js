@@ -44,7 +44,12 @@ esbuild.build({
 		console.error(e);
 		console.error(); // Newline
 
-		throw new Error('Ran into an error when trying to copy prebuilt native modules for the `classic-level` module.');
+		throw new Error('Ran into an error when trying to copy native modules for the `classic-level` module.');
 	}
+
+	fs.copySync(
+		`../../assets/`,
+		`dist/assets/`
+	);
 });
 
