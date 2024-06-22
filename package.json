@@ -24,6 +24,7 @@
     "scripts": {
         "pwa:build": "pnpm --filter @padloc/pwa run build",
         "pwa:start": "pnpm --filter @padloc/pwa run start",
+        "server:build": "pnpm --filter @padloc/server run build",
         "server:start": "pnpm --filter @padloc/server run start --stream",
         "server:start-dry": "pnpm --filter @padloc/server run start-dry --stream",
         "electron:start": "pnpm --filter @padloc/electron run start",
