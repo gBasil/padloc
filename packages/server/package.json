@@ -39,7 +39,7 @@
         "fs-extra": "10.0.0",
         "geolite2-redist": "2.0.4",
         "jsdom": "19.0.0",
-        "level": "7.0.0",
+        "level": "8.0.1",
         "maxmind": "4.3.2",
         "mixpanel": "0.13.0",
         "mongodb": "4.1.0",
@@ -50,7 +50,7 @@
         "typescript": "4.4.3"
     },
     "scripts": {
-		"build": "node build.js",
+        "build": "node build.js",
         "start": "ts-node src/init.ts",
         "start-dry": "ts-node src/init.ts --dryrun",
         "repl": "ts-node src/init-repl-client.ts",

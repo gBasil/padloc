@@ -1,5 +1,4 @@
-// @ts-ignore
-import level from "level";
+import { Level } from "level";
 import {
     Storage,
     Storable,
@@ -18,10 +17,10 @@ export class LevelDBStorageConfig extends Config {
 }
 
 export class LevelDBStorage implements Storage {
-    private _db: any;
+    private _db: Level;
 
     constructor(public readonly config: LevelDBStorageConfig) {
-        this._db = level(`${this.config.dir}`);
+        this._db = new Level(`${this.config.dir}`);
     }
 
     async get<T extends Storable>(cls: StorableConstructor<T> | T, id: string) {
@@ -54,38 +53,30 @@ export class LevelDBStorage implements Storage {
         cls: StorableConstructor<T>,
         { offset = 0, limit = Infinity, query, orderBy, orderByDirection }: StorageListOptions = {}
     ): Promise<T[]> {
-        return new Promise((resolve, reject) => {
-            const results: T[] = [];
-            const kind = new cls().kind;
-            const sort = orderBy && sortBy(orderBy, orderByDirection || "asc");
+		const results: T[] = [];
+		const kind = new cls().kind;
+		const sort = orderBy && sortBy(orderBy, orderByDirection || "asc");
 
-            const stream = this._db.createReadStream();
+		for await (const [key, value] of this._db.iterator()) {
+			if (key.indexOf(kind + "_") !== 0) {
+				throw new Error();
+			}
+			try {
+				const item = new cls().fromJSON(value);
+				if (!query || filterByQuery(item, query)) {
+					results.push(item);
+				}
+			} catch (e) {
+				console.error(
+					`Failed to load ${key}:${JSON.stringify(JSON.parse(value), null, 4)} (Error: ${e})`
+				);
+			}
+		}
 
-            stream
-                .on("data", ({ key, value }: { key: string; value: string }) => {
-                    if (key.indexOf(kind + "_") !== 0) {
-                        return;
-                    }
-                    try {
-                        const item = new cls().fromJSON(value);
-                        if (!query || filterByQuery(item, query)) {
-                            results.push(item);
-                        }
-                    } catch (e) {
-                        console.error(
-                            `Failed to load ${key}:${JSON.stringify(JSON.parse(value), null, 4)} (Error: ${e})`
-                        );
-                    }
-                })
-                .on("error", (err: Error) => reject(err))
-                .on("close", () => reject("Stream closed unexpectedly."))
-                .on("end", () => {
-                    if (sort) {
-                        results.sort(sort);
-                    }
-                    resolve(results.slice(offset, offset + limit));
-                });
-        });
+		if (sort) {
+			results.sort(sort);
+		}
+		return results.slice(offset, offset + limit);
     }
 
     async count<T extends Storable>(cls: StorableConstructor<T>, query?: StorageQuery): Promise<number> {

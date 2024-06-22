@@ -1,7 +1,8 @@
 // This is not a ES Module, as we need access to `require.resolve` to fix a JSDom warning
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const esbuild = require('esbuild');
 
+// Taken from a comment somewhere in this thread: https://github.com/evanw/esbuild/issues/1311
 const jsdomPatch = {
 	name: 'jsdom-patch',
 	setup(build) {
@@ -23,10 +24,31 @@ const jsdomPatch = {
 esbuild.build({
 	entryPoints: ['src/init.ts'],
 	bundle: true,
-	minify: true,
+	// minify: true,
 	platform: 'node',
-	outfile: 'server.js',
+	outfile: 'dist/server.js',
 	plugins: [jsdomPatch],
-	// Note: We only have to provide `level` as a dependency, as we don't use Postgres
-	external: ['canvas', 'pg-native', 'level'],
+	external: ['canvas', 'pg-native']
+})
+.then(() => {
+	const file = process.platform === 'darwin' 
+		? 'darwin-x64+arm64'
+		: `${process.platform}-${process.arch}`;
+
+	try {
+		fs.copySync(
+			`../../node_modules/.pnpm/level@8.0.1/node_modules/classic-level/prebuilds/${file}/`,
+			`dist/prebuilds/${file}/`
+		);
+	} catch (e) {
+		console.error(e);
+		console.error(); // Newline
+
+		throw new Error(
+			'Ran into an error when trying to copy prebuilt native modules for the `classic-level` module.'
+			+ `\nIf you use a more obscure operating system, this may be because prebuilt native modules for your system (${file}) aren\'t supported.`
+			+ '\nWhile this build script currently does not support building new native modules, this problem may be solved by building the native module for your operating system.'
+		);
+	}
 });
+

@@ -1,8 +1,9 @@
 # Padloc
 
 A fork of Padloc that:
-- **Suits my personal wants/needs.**
+- **Suits my personal wants/needs**
 - Uses pnpm workspaces instead of Lerna + npm
+- Builds the server with esbuild instead of live-building with ts-node
 
 [![](https://github.com/padloc/padloc/workflows/Run%20Tests/badge.svg?branch=main)](https://github.com/padloc/padloc/actions?workflow=Run+Tests)
 
